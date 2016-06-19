@@ -1,0 +1,22 @@
+{
+  "name": "sail-pattern-generator",
+  "version": "0.0.0",
+  "description": "Pattern generator for the SAIL website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hicsail/sail-pattern-generator.git"
+  },
+  "author": "Frederick Jansen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hicsail/sail-pattern-generator/issues"
+  },
+  "homepage": "https://github.com/hicsail/sail-pattern-generator#readme",
+  "dependencies": {
+    "snapsvg": "^0.4.0"
+  }
+}
