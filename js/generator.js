@@ -12,6 +12,9 @@ $(function () {
       var numVer = gridSizeY * 4;
       var triangleWidth = patternSize / 4;
 
+      ctx.canvas.width = patternSize * gridSizeX;
+      ctx.canvas.height = patternSize * gridSizeY;
+
       for (var i = 0; i < numHor; i++) {
         for (var j = 0; j < numVer; j++) {
           drawTriangle(ctx, i * triangleWidth, j * triangleWidth, triangleWidth, randomColor(), false);
