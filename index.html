@@ -5,32 +5,65 @@
 
   <title>SAIL Pattern Generator</title>
 
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="css/site.css">
 
   <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 
 <body>
+<div class="container">
+  <!--svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     viewBox="0 0 13092.1 1497.3" enable-background="new 0 0 13092.1 1497.3" xml:space="preserve">
+  <polygon fill="#73A6FC" points="5055.6,24.4 4693.6,24.4 5055.6,386.4 5417.6,24.4 "/>
+  <polygon fill="#73A6FC" points="5055.6,1472.4 4693.6,1472.4 5055.6,1110.4 5417.6,1472.4 "/>
+  <polygon fill="#94ED6B" points="4330.1,384.8 4330.1,749.4 4330.1,1111.4 4692.1,748.4 "/>
+  <polygon fill="#EBB54A" points="4693.6,24.4 4330.1,24.4 4693.3,386.4 5055.1,748.4 5055.6,386.4 "/>
+  <polygon fill="#E0533B" points="4693.3,1110.4 4330.1,1472.4 4693.6,1472.4 5055.6,1110.4 5055.1,748.4 "/>
+  <polygon fill="#E0533B" points="4693.6,386.4 4330.1,24.4 4330.1,384.9 4331.6,386.4 4692.1,748.4 5055.1,748.4 "/>
+  <polygon fill="#EBB54A" points="4692.1,748.4 4331.1,1110.4 4330.1,1111.4 4330.1,1472.4 4692.8,1110.4 5055.1,748.4 "/>
+  <polygon fill="#73A6FC" points="5054.1,1472.4 5416.1,1472.4 5054.1,1110.4 4692.1,1472.4 "/>
+  <polygon fill="#73A6FC" points="5054.1,24.4 5416.1,24.4 5054.1,386.4 4692.1,24.4 "/>
+  <g>
+    <polygon fill="#94ED6B" points="5779.6,1112.5 5770.9,1103.4 5773.1,411.5 5779.6,411.5   "/>
+    <polygon fill="#94ED6B" points="5778.6,1112.2 5779.1,1112.7 5779.6,384.5 5415.8,748.4   "/>
+  </g>
+  <polygon fill="#EBB54A" points="5416.1,1472.4 5779.6,1472.4 5416.3,1110.4 5055.1,748.4 5054.1,1110.4 "/>
+  <polygon fill="#E0533B" points="5416.3,386.4 5779.6,24.4 5416.1,24.4 5054.1,386.4 5055.1,748.4 "/>
+  <polygon fill="#E0533B" points="5779.6,1112.2 5417.6,748.4 5417.1,748.4 5055.1,748.4 5414.3,1110.4 5779.6,1472.4 5779.1,1112.7
+    "/>
 
-  <form id="pattern-options">
-    <label>
-      Pattern Size
-      <input id="pattern-size" type="numeric" name="pattern-size" value="250">
-    </label>
-    <label>
-      Grid Size X
-      <input id="pattern-size" type="numeric" name="pattern-size" value="3">
-    </label>
-    <label>
-      Grid Size Y
-      <input id="pattern-size" type="numeric" name="pattern-size" value="3">
-    </label>
-  </form>
+  <polygon fill="#E0533B" points="5779.6,1472.4 5777.9,1470.6 5778.2,1112.2 5779.6,1112.2 "/>
+  <g>
+    <polygon fill="#EBB54A" points="5417.6,748.4 5779.6,384.7 5778.3,25.6 5415.3,386.4 5055.1,748.4   "/>
+    <polygon fill="#EBB54A" points="5777.9,383 5779.6,383 5779.6,24.4 5776.4,27.6   "/>
+  </g>
+</svg-->
+  <h1 class="page-header">SAIL Pattern Generator</h1>
+  <div class="row">
+    <div class="col-md-9"></div>
+    <div class="col-md-3">
+      <form id="pattern-options">
+        <div class="form-group">
+          <label for="pattern-size">Pattern Size</label>
+          <input id="pattern-size" class="form-control" type="numeric" value="250">
+        </div>
+        <div class="form-group">
+          <label for="grid-size-x">Grid Size X</label>
+          <input id="grid-size-x" class="form-control" type="numeric" value="3">
+        </div>
+        <div class="form-group">
+          <label for="grid-size-y">Grid Size Y</label>
+          <input id="grid-size-y" class="form-control" type="numeric" value="3">
+        </div>
+      </form>
+    </div>
+  </div>
 
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script src="node_modules/snapsvg/dist/snap.svg-min.js"></script>
   <script src="js/generator.js"></script>
+</div>
 </body>
 </html>
