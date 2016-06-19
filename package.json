@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/hicsail/sail-pattern-generator#readme",
   "dependencies": {
+    "jquery": "^3.0.0",
     "snapsvg": "^0.4.0"
   }
 }

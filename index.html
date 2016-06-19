@@ -5,7 +5,7 @@
 
   <title>SAIL Pattern Generator</title>
 
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <link rel="stylesheet" href="css/site.css">
 
   <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -13,6 +13,24 @@
 </head>
 
 <body>
+
+  <form id="pattern-options">
+    <label>
+      Pattern Size
+      <input id="pattern-size" type="numeric" name="pattern-size" value="250">
+    </label>
+    <label>
+      Grid Size X
+      <input id="pattern-size" type="numeric" name="pattern-size" value="3">
+    </label>
+    <label>
+      Grid Size Y
+      <input id="pattern-size" type="numeric" name="pattern-size" value="3">
+    </label>
+  </form>
+
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script src="node_modules/snapsvg/dist/snap.svg-min.js"></script>
+  <script src="js/generator.js"></script>
 </body>
 </html>
