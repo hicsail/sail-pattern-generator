@@ -2,7 +2,7 @@ $(function () {
   var patternSize = $('#pattern-size').val();
   var gridSizeX = $('#grid-size-x').val();
   var gridSizeY = $('#grid-size-y').val();
-  var colors = ['#EBB54A', '#E0533B', '#94ED6B', '#72A6FC', '#FFFFFF'];
+  var colors = ['#E0533B', '#EBB54A', '#94ED6B', '#73A6FC', '#FFFFFF'];
 
   function draw() {
     var canvas = document.getElementById('ctx');
