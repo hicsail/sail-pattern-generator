@@ -30,7 +30,7 @@ $(function () {
 
           // Draw second part of square
           color = randomColor();
-          drawTriangle(ctx, offsetX, offsetY, triangleWidth, randomColor(), true, rotated);
+          drawTriangle(ctx, offsetX, offsetY, triangleWidth, color, true, rotated);
           polys.push(buildPoly(offsetX, offsetY, triangleWidth, color, true, rotated));
         }
       }
@@ -118,5 +118,5 @@ $(function () {
 
   var polys = draw();
   var svg = addSVGHeader(polys);
-  console.log(svg.toString());
+  console.log(svg);
 });
