@@ -17,25 +17,42 @@ $(function () {
 
       for (var i = 0; i < numHor; i++) {
         for (var j = 0; j < numVer; j++) {
-          drawTriangle(ctx, i * triangleWidth, j * triangleWidth, triangleWidth, randomColor(), false);
+          var rotated = Math.round(Math.random());
 
-          drawTriangle(ctx, i * triangleWidth, j * triangleWidth, triangleWidth, randomColor(), true);
+          drawTriangle(ctx, i * triangleWidth, j * triangleWidth, triangleWidth, randomColor(), false, rotated);
+          drawTriangle(ctx, i * triangleWidth, j * triangleWidth, triangleWidth, randomColor(), true, rotated);
         }
       }
     }
   }
 
-  function drawTriangle(ctx, offsetX, offsetY, width, color, flipped) {
+  function drawTriangle(ctx, offsetX, offsetY, width, color, flipped, rotated) {
     ctx.beginPath();
     ctx.fillStyle = color;
-    if (flipped) {
-      ctx.moveTo(offsetX, offsetY);
-      ctx.lineTo(offsetX + width, offsetY);
-      ctx.lineTo(offsetX, offsetY + width);
+    if (!flipped) {
+      if (rotated) {
+        // ◺
+        ctx.moveTo(offsetX, offsetY + width);
+        ctx.lineTo(offsetX, offsetY);
+        ctx.lineTo(offsetX + width, offsetY + width);
+        // ◸
+      } else {
+        ctx.moveTo(offsetX, offsetY);
+        ctx.lineTo(offsetX + width, offsetY);
+        ctx.lineTo(offsetX, offsetY + width);
+      }
     } else {
-      ctx.moveTo(offsetX + width, offsetY + width);
-      ctx.lineTo(offsetX + width, offsetY);
-      ctx.lineTo(offsetX, offsetY + width);
+      if (rotated) {
+        // ◹
+        ctx.moveTo(offsetX + width, offsetY);
+        ctx.lineTo(offsetX + width, offsetY + width);
+        ctx.lineTo(offsetX, offsetY);
+      } else {
+        // ◿
+        ctx.moveTo(offsetX + width, offsetY + width);
+        ctx.lineTo(offsetX, offsetY + width);
+        ctx.lineTo(offsetX + width, offsetY);
+      }
     }
 
     ctx.fill();
