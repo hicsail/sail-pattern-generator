@@ -2,6 +2,7 @@ $(function () {
   var patternSize = $('#pattern-size').val();
   var gridSizeX = $('#grid-size-x').val();
   var gridSizeY = $('#grid-size-y').val();
+  var svgField = $('#svg');
   var colors = ['#E0533B', '#EBB54A', '#94ED6B', '#73A6FC', '#FFFFFF'];
 
   function draw() {
@@ -110,13 +111,13 @@ $(function () {
   }
 
   function addSVGHeader(polys) {
-    var svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg" x="0" y="0" >';
-    svg += polys.join('');
-    svg += '</svg>';
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg" x="0" y="0" >\n';
+    svg += polys.join('\n');
+    svg += '\n</svg>';
     return svg;
   }
 
   var polys = draw();
   var svg = addSVGHeader(polys);
-  console.log(svg);
+  svgField.val(svg);
 });
