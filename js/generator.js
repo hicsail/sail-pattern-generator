@@ -41,6 +41,7 @@ $(function () {
 
   function drawTriangle(ctx, x, y, width, color, flipped, rotated) {
     var rad;
+    var pi = 3.14159265;
 
     ctx.save();
     // Move origin for rotation
@@ -50,7 +51,7 @@ $(function () {
     if (!flipped) {
       if (rotated) {
         // ◺
-        rad = 270 * 3.14159265 / 180;
+        rad = 270 * pi / 180;
         // ◸
       } else {
         rad = 0;
@@ -58,10 +59,10 @@ $(function () {
     } else {
       if (rotated) {
         // ◹
-        rad = 90 * 3.14159265 / 180;
+        rad = 90 * pi / 180;
       } else {
         // ◿
-        rad = 3.14159265;
+        rad = pi;
       }
     }
 
