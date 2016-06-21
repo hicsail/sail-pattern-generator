@@ -5,6 +5,25 @@ $(function () {
   var svgField = $('#svg');
   var colors = ['#E0533B', '#EBB54A', '#94ED6B', '#73A6FC', '#FFFFFF'];
 
+  function setupListeners() {
+    $('form :input').change(function (e) {
+      switch (e.target.id) {
+        case 'pattern-size':
+          patternSize = e.target.value;
+          break;
+        case 'grid-size-x':
+          gridSizeX = e.target.value;
+          break;
+        case 'grid-size-y':
+          gridSizeY = e.target.value;
+          break;
+        default:
+          break;
+      }
+      draw();
+    });
+  }
+
   function draw() {
     var canvas = document.getElementById('ctx');
     if (canvas.getContext) {
@@ -18,8 +37,8 @@ $(function () {
       ctx.canvas.width = patternSize * gridSizeX;
       ctx.canvas.height = patternSize * gridSizeY;
 
-      for (var j = 0; j < numHor; j++) {
-        for (var i = 0; i < numVer; i++) {
+      for (var j = 0; j < numVer; j++) {
+        for (var i = 0; i < numHor; i++) {
           var rotated = Math.round(Math.random());
           var x = i * triangleWidth;
           var y = j * triangleWidth;
@@ -36,12 +55,13 @@ $(function () {
         }
       }
     }
-    return polys;
+    var svg = addSVGHeader(polys);
+    svgField.val(svg);
   }
 
   function drawTriangle(ctx, x, y, width, color, flipped, rotated) {
-    var rad;
     var pi = 3.14159265;
+    var rad;
 
     ctx.save();
     // Move origin for rotation
@@ -52,8 +72,8 @@ $(function () {
       if (rotated) {
         // ◺
         rad = 270 * pi / 180;
-        // ◸
       } else {
+        // ◸
         rad = 0;
       }
     } else {
@@ -128,7 +148,6 @@ $(function () {
     return svg;
   }
 
-  var polys = draw();
-  var svg = addSVGHeader(polys);
-  svgField.val(svg);
+  setupListeners();
+  draw();
 });
