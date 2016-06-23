@@ -94,8 +94,14 @@ $(function () {
     ctx.beginPath();
     ctx.fillStyle = color;
     ctx.moveTo(x, y);
-    ctx.lineTo(x + width, y);
-    ctx.lineTo(x, y + width);
+    // Add 1 pixel overlap to first of 2 triangles to fix aliasing issue
+    if (!flipped) {
+      ctx.lineTo(x + width + 1, y);
+      ctx.lineTo(x, y + width + 1);
+    } else {
+      ctx.lineTo(x + width, y);
+      ctx.lineTo(x, y + width);
+    }
     ctx.fill();
 
     // Restore canvas
@@ -104,7 +110,13 @@ $(function () {
   }
 
   function buildPoly(x, y, width, color, flipped, rotated) {
-    var points = [[x, y], [x + width, y], [x, y + width]];
+    var points;
+    // Add 1 pixel overlap to first of 2 triangles to fix aliasing issue
+    if (!flipped) {
+      points = [[x, y], [x + width + 1, y], [x, y + width + 1]];
+    } else {
+      points = [[x, y], [x + width, y], [x, y + width]];
+    }
     var pointsStr = [];
 
     for (var i = 0; i < points.length; i++) {
