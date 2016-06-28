@@ -2,7 +2,7 @@ $(function () {
   var patternSize = $('#pattern-size').val();
   var gridSizeX = $('#grid-size-x').val();
   var gridSizeY = $('#grid-size-y').val();
-  var svgField = $('#svg');
+  var svgField = $('#svg-text');
   var colors = ['#E0533B', '#EBB54A', '#94ED6B', '#73A6FC', '#FFFFFF'];
 
   function setupListeners() {
@@ -22,6 +22,37 @@ $(function () {
       }
       draw();
     });
+  }
+
+  function setupSVG() {
+    var svg = d3.select('#svg').append('svg')
+      .attr('width', patternSize * gridSizeX)
+      .attr('height', patternSize * gridSizeY);
+
+    return svg;
+  }
+
+  function drawSVG(svg) {
+    var numHor = gridSizeX * 4,
+      numVer = gridSizeY * 4,
+      triangleWidth = patternSize / 4,
+      polys = [];
+
+    for (var j = 0; j < numVer; j++) {
+      for (var i = 0; i < numHor; i++) {
+        var rotated = Math.round(Math.random());
+        var x = i * triangleWidth;
+        var y = j * triangleWidth;
+        var color = randomColor();
+
+        polys.push(buildPoly(x, y, triangleWidth, color, false, rotated));
+
+        // Draw second part of square
+        color = randomColor();
+        polys.push(buildPoly(x, y, triangleWidth, color, true, rotated));
+      }
+    }
+    svg.append(polys);
   }
 
   function draw() {
@@ -161,5 +192,7 @@ $(function () {
   }
 
   setupListeners();
-  draw();
+  //draw();
+  var svg = setupSVG();
+  drawSVG(svg);
 });
