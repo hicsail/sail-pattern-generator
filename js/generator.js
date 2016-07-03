@@ -45,11 +45,19 @@ $(function () {
         var y = j * triangleWidth;
         var color = randomColor();
 
-        polys.push(buildPoly(x, y, triangleWidth, color, false, rotated));
+        var points = getSVGPoints(x, y, triangleWidth, false, rotated);
+        svg.append('polygon')
+          .attr('points', points)
+          .attr('fill', color);
+        polys.push(buildPoly(points, color));
 
         // Draw second part of square
         color = randomColor();
-        polys.push(buildPoly(x, y, triangleWidth, color, true, rotated));
+        points = getSVGPoints(x, y, triangleWidth, true, rotated);
+        svg.append('polygon')
+          .attr('points', points)
+          .attr('fill', color);
+        polys.push(buildPoly(points, color));
       }
     }
     svg.append(polys);
@@ -140,7 +148,7 @@ $(function () {
 
   }
 
-  function buildPoly(x, y, width, color, flipped, rotated) {
+  function getSVGPoints(x, y, width, flipped, rotated) {
     var points;
     // Add 1 pixel overlap to first of 2 triangles to fix aliasing issue
     if (!flipped) {
@@ -176,8 +184,11 @@ $(function () {
 
       pointsStr.push(points[i][0].toString() + ',' + points[i][1])
     }
+    return pointsStr.join(' ');
+  }
 
-    return '<polygon fill="' + color + '" points="' + pointsStr.join(' ') + '"></polygon>';
+  function buildPoly(points, color) {
+    return '<polygon fill="' + color + '" points="' + points + '"></polygon>';
   }
 
   function randomColor() {
