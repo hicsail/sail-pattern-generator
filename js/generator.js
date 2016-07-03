@@ -4,6 +4,7 @@ $(function () {
   var gridSizeY = $('#grid-size-y').val();
   var svgField = $('#svg-text');
   var colors = ['#E0533B', '#EBB54A', '#94ED6B', '#73A6FC', '#FFFFFF'];
+  var useSVG = 1;
 
   function setupListeners() {
     $('form :input').change(function (e) {
@@ -20,8 +21,13 @@ $(function () {
         default:
           break;
       }
-      var svg = setupSVG();
-      drawSVG(svg);
+
+      if (useSVG) {
+        var svg = setupSVG();
+        drawSVG(svg);
+      } else {
+        drawCanvas();
+      }
     });
   }
 
@@ -63,10 +69,11 @@ $(function () {
         polys.push(buildPoly(points, color));
       }
     }
-    svg.append(polys);
+    var svgText = addSVGHeader(polys);
+    svgField.val(svgText);
   }
 
-  function draw() {
+  function drawCanvas() {
     var canvas = document.getElementById('ctx');
     if (canvas.getContext) {
       var ctx = canvas.getContext('2d');
@@ -206,7 +213,11 @@ $(function () {
   }
 
   setupListeners();
-  //draw();
-  var svg = setupSVG();
-  drawSVG(svg);
+  if (useSVG) {
+    var svg = setupSVG();
+    drawSVG(svg);
+  } else {
+    drawCanvas();
+  }
+
 });
