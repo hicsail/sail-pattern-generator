@@ -38,6 +38,10 @@ $(function () {
       .attr('width', patternSize * gridSizeX)
       .attr('height', patternSize * gridSizeY);
 
+    svg.on('click', function() {
+      changeColor(d3.event.target);
+    });
+
     return svg;
   }
 
@@ -199,6 +203,11 @@ $(function () {
 
   function buildPoly(points, color) {
     return '<polygon fill="' + color + '" points="' + points + '"></polygon>';
+  }
+
+  function changeColor(target) {
+    d3.select(target)
+      .attr('fill', randomColor());
   }
 
   function randomColor() {
