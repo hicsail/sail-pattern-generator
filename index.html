@@ -42,8 +42,8 @@
 </svg-->
   <h1 class="page-header">SAIL Pattern Generator</h1>
   <div class="row">
-    <div class="col-md-9">
-      <canvas id="ctx"></canvas>
+    <div id="svg" class="col-md-9">
+
     </div>
     <div class="col-md-3">
       <form id="pattern-options">
@@ -61,8 +61,8 @@
         </div>
         <hr />
         <div class="form-group">
-          <label for="svg">SVG Output</label>
-          <textarea id="svg" class="form-control"></textarea>
+          <label for="svg-text">SVG Output</label>
+          <textarea id="svg-text" class="form-control"></textarea>
         </div>
       </form>
 
@@ -71,6 +71,7 @@
 
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script src="node_modules/snapsvg/dist/snap.svg-min.js"></script>
+  <script src="node_modules/d3/d3.min.js"></script>
   <script src="js/generator.js"></script>
 </div>
 </body>

@@ -2,8 +2,9 @@ $(function () {
   var patternSize = $('#pattern-size').val();
   var gridSizeX = $('#grid-size-x').val();
   var gridSizeY = $('#grid-size-y').val();
-  var svgField = $('#svg');
+  var svgField = $('#svg-text');
   var colors = ['#E0533B', '#EBB54A', '#94ED6B', '#73A6FC', '#FFFFFF'];
+  var useSVG = 1;
 
   function setupListeners() {
     $('form :input').change(function (e) {
@@ -20,11 +21,59 @@ $(function () {
         default:
           break;
       }
-      draw();
+
+      if (useSVG) {
+        var svg = setupSVG();
+        drawSVG(svg);
+      } else {
+        drawCanvas();
+      }
     });
   }
 
-  function draw() {
+  function setupSVG() {
+    var svg = d3.select('#svg')
+      .html('')
+      .append('svg')
+      .attr('width', patternSize * gridSizeX)
+      .attr('height', patternSize * gridSizeY);
+
+    return svg;
+  }
+
+  function drawSVG(svg) {
+    var numHor = gridSizeX * 4,
+      numVer = gridSizeY * 4,
+      triangleWidth = patternSize / 4,
+      polys = [];
+
+    for (var j = 0; j < numVer; j++) {
+      for (var i = 0; i < numHor; i++) {
+        var rotated = Math.round(Math.random());
+        var x = i * triangleWidth;
+        var y = j * triangleWidth;
+        var color = randomColor();
+
+        var points = getSVGPoints(x, y, triangleWidth, false, rotated);
+        svg.append('polygon')
+          .attr('points', points)
+          .attr('fill', color);
+        polys.push(buildPoly(points, color));
+
+        // Draw second part of square
+        color = randomColor();
+        points = getSVGPoints(x, y, triangleWidth, true, rotated);
+        svg.append('polygon')
+          .attr('points', points)
+          .attr('fill', color);
+        polys.push(buildPoly(points, color));
+      }
+    }
+    var svgText = addSVGHeader(polys);
+    svgField.val(svgText);
+  }
+
+  function drawCanvas() {
     var canvas = document.getElementById('ctx');
     if (canvas.getContext) {
       var ctx = canvas.getContext('2d');
@@ -109,7 +158,7 @@ $(function () {
 
   }
 
-  function buildPoly(x, y, width, color, flipped, rotated) {
+  function getSVGPoints(x, y, width, flipped, rotated) {
     var points;
     // Add 1 pixel overlap to first of 2 triangles to fix aliasing issue
     if (!flipped) {
@@ -145,8 +194,11 @@ $(function () {
 
       pointsStr.push(points[i][0].toString() + ',' + points[i][1])
     }
+    return pointsStr.join(' ');
+  }
 
-    return '<polygon fill="' + color + '" points="' + pointsStr.join(' ') + '"></polygon>';
+  function buildPoly(points, color) {
+    return '<polygon fill="' + color + '" points="' + points + '"></polygon>';
   }
 
   function randomColor() {
@@ -161,5 +213,11 @@ $(function () {
   }
 
   setupListeners();
-  draw();
+  if (useSVG) {
+    var svg = setupSVG();
+    drawSVG(svg);
+  } else {
+    drawCanvas();
+  }
+
 });
