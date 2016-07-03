@@ -20,12 +20,15 @@ $(function () {
         default:
           break;
       }
-      draw();
+      var svg = setupSVG();
+      drawSVG(svg);
     });
   }
 
   function setupSVG() {
-    var svg = d3.select('#svg').append('svg')
+    var svg = d3.select('#svg')
+      .html('')
+      .append('svg')
       .attr('width', patternSize * gridSizeX)
       .attr('height', patternSize * gridSizeY);
 
