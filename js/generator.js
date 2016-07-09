@@ -38,8 +38,8 @@ $(function () {
       .attr('width', patternSize * gridSizeX)
       .attr('height', patternSize * gridSizeY);
 
-    svg.on('click', function() {
-      changeColor(d3.event.target);
+    svg.on('click', function () {
+      changeColor(d3.event.target, d3.event.target);
     });
 
     return svg;
@@ -206,8 +206,21 @@ $(function () {
   }
 
   function changeColor(target) {
+    var currentColor = d3.select(target).attr('fill'),
+      color;
+
+    for (var i = 0; i < colors.length; i++) {
+      if (i === colors.length - 1) {
+        color = colors[0];
+        break;
+      } else if (colors[i] === currentColor) {
+        color = colors[i + 1];
+        break;
+      }
+    }
+
     d3.select(target)
-      .attr('fill', randomColor());
+      .attr('fill', color);
   }
 
   function randomColor() {
