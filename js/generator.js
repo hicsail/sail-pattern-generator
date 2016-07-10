@@ -39,7 +39,12 @@ $(function () {
       .attr('height', patternSize * gridSizeY);
 
     svg.on('click', function () {
-      changeColor(d3.event.target, d3.event.target);
+      if (d3.event.ctrlKey) {
+        rotateTriangle(d3.event.target);
+      } else {
+        changeColor(d3.event.target);
+      }
+      svgField.val(svg[0][0].outerHTML);
     });
 
     return svg;
@@ -73,8 +78,7 @@ $(function () {
         polys.push(buildPoly(points, color));
       }
     }
-    var svgText = addSVGHeader(polys);
-    svgField.val(svgText);
+    svgField.val(svg[0][0].outerHTML);
   }
 
   function drawCanvas() {
@@ -221,6 +225,12 @@ $(function () {
 
     d3.select(target)
       .attr('fill', color);
+  }
+
+  function rotateTriangle(target) {
+    var currentTriangle = d3.select(target).transform('r90');
+
+
   }
 
   function randomColor() {
