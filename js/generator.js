@@ -200,7 +200,7 @@ $(function () {
       points[i][0] += x + width / 2;
       points[i][1] += y + width / 2;
 
-      pointsStr.push(points[i][0].toString() + ',' + points[i][1])
+      pointsStr.push(points[i][0] + ',' + points[i][1])
     }
     return pointsStr.join(' ');
   }
@@ -228,9 +228,18 @@ $(function () {
   }
 
   function rotateTriangle(target) {
-    var currentTriangle = d3.select(target).transform('r90');
+    var currentTrianglePoints = d3.select(target).attr('points'),
+      pointsArray = [];
+    currentTrianglePoints = currentTrianglePoints.split(' ');
+    currentTrianglePoints.forEach(function (value) {
+      pointsArray.push(value.split(","));
+    });
 
+    var width = Math.max(Math.abs(pointsArray[0][0] - pointsArray[1][0]), Math.abs(pointsArray[0][0] - pointsArray[2][0]));
+    console.log(width);
+    //var x =
 
+    console.log(pointsArray);
   }
 
   function randomColor() {
