@@ -64,7 +64,8 @@ $(function () {
         var color = randomColor();
 
         var points = getSVGPoints(x, y, triangleWidth, false, rotated);
-        svg.append('polygon')
+        var g = svg.append('g');
+        g.append('polygon')
           .attr('points', points)
           .attr('fill', color);
         polys.push(buildPoly(points, color));
@@ -72,7 +73,7 @@ $(function () {
         // Draw second part of square
         color = randomColor();
         points = getSVGPoints(x, y, triangleWidth, true, rotated);
-        svg.append('polygon')
+        g.append('polygon')
           .attr('points', points)
           .attr('fill', color);
         polys.push(buildPoly(points, color));
@@ -174,7 +175,6 @@ $(function () {
     } else {
       points = [[x, y], [x + width, y], [x, y + width]];
     }
-    var pointsStr = [];
 
     for (var i = 0; i < points.length; i++) {
       // Move to origin to rotate
@@ -199,10 +199,8 @@ $(function () {
       }
       points[i][0] += x + width / 2;
       points[i][1] += y + width / 2;
-
-      pointsStr.push(points[i][0] + ',' + points[i][1])
     }
-    return pointsStr.join(' ');
+    return pointsToString(points);
   }
 
   function buildPoly(points, color) {
@@ -229,17 +227,28 @@ $(function () {
 
   function rotateTriangle(target) {
     var currentTrianglePoints = d3.select(target).attr('points'),
-      pointsArray = [];
-    currentTrianglePoints = currentTrianglePoints.split(' ');
-    currentTrianglePoints.forEach(function (value) {
-      pointsArray.push(value.split(","));
-    });
+      pointsArray = stringToPoints(currentTrianglePoints);
 
     var width = Math.max(Math.abs(pointsArray[0][0] - pointsArray[1][0]), Math.abs(pointsArray[0][0] - pointsArray[2][0]));
     console.log(width);
     //var x =
 
     console.log(pointsArray);
+  }
+
+  function pointsToString(points) {
+    var pointsStr = '';
+    for (var i = 0; i < points.length; i++) {
+      pointsStr += points[i].join(',') + ' ';
+    }
+    return pointsStr.trim();
+  }
+  function stringToPoints(str) {
+    var points = str.split(' ');
+    for (var i = 0; i < points.length; i++) {
+      points[i] = points[i].split(',');
+    }
+    return points;
   }
 
   function randomColor() {
