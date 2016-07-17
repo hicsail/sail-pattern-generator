@@ -36,7 +36,8 @@ $(function () {
       .html('')
       .append('svg')
       .attr('width', patternSize * gridSizeX)
-      .attr('height', patternSize * gridSizeY);
+      .attr('height', patternSize * gridSizeY)
+      .attr('shape-rendering', 'crispEdges');
 
     svg.on('click', function () {
       if (d3.event.ctrlKey) {
@@ -64,7 +65,8 @@ $(function () {
         var color = randomColor();
 
         var points = getSVGPoints(x, y, triangleWidth, false, rotated);
-        svg.append('polygon')
+        var g = svg.append('g');
+        g.append('polygon')
           .attr('points', points)
           .attr('fill', color);
         polys.push(buildPoly(points, color));
@@ -72,7 +74,7 @@ $(function () {
         // Draw second part of square
         color = randomColor();
         points = getSVGPoints(x, y, triangleWidth, true, rotated);
-        svg.append('polygon')
+        g.append('polygon')
           .attr('points', points)
           .attr('fill', color);
         polys.push(buildPoly(points, color));
@@ -167,14 +169,7 @@ $(function () {
   }
 
   function getSVGPoints(x, y, width, flipped, rotated) {
-    var points;
-    // Add 1 pixel overlap to first of 2 triangles to fix aliasing issue
-    if (!flipped) {
-      points = [[x, y], [x + width + 1, y], [x, y + width + 1]];
-    } else {
-      points = [[x, y], [x + width, y], [x, y + width]];
-    }
-    var pointsStr = [];
+    var points = [[x, y], [x + width, y], [x, y + width]];
 
     for (var i = 0; i < points.length; i++) {
       // Move to origin to rotate
@@ -197,12 +192,11 @@ $(function () {
           [points[i][0], points[i][1]] = [-points[i][0], -points[i][1]]
         }
       }
+
       points[i][0] += x + width / 2;
       points[i][1] += y + width / 2;
-
-      pointsStr.push(points[i][0].toString() + ',' + points[i][1])
     }
-    return pointsStr.join(' ');
+    return pointsToString(points);
   }
 
   function buildPoly(points, color) {
@@ -228,9 +222,56 @@ $(function () {
   }
 
   function rotateTriangle(target) {
-    var currentTriangle = d3.select(target).transform('r90');
+    var currentTriangle = d3.select(target),
+      thisPoints = stringToPoints(currentTriangle.attr('points'));
 
+    var otherTriangle = d3.select(target.previousElementSibling);
+    if (otherTriangle.empty()) {
+      otherTriangle = d3.select(target.nextElementSibling);
+    }
+    var otherPoints = stringToPoints(otherTriangle.attr('points'));
 
+    var width = Math.max(Math.abs(thisPoints[0][0] - thisPoints[1][0]), Math.abs(thisPoints[0][0] - thisPoints[2][0])),
+      x, y;
+
+    x = Math.min(thisPoints[0][0], thisPoints[1][0], thisPoints[2][0]);
+    y = Math.min(thisPoints[0][1], thisPoints[1][1], thisPoints[2][1]);
+
+    for (var i = 0; i < thisPoints.length; i++) {
+      thisPoints[i][0] -= x + width / 2;
+      thisPoints[i][1] -= y + width / 2;
+      otherPoints[i][0] -= x + width / 2;
+      otherPoints[i][1] -= y + width / 2;
+
+      [thisPoints[i][0], thisPoints[i][1]] = [-thisPoints[i][1], thisPoints[i][0]];
+      [otherPoints[i][0], otherPoints[i][1]] = [-otherPoints[i][1], otherPoints[i][0]];
+
+      thisPoints[i][0] += x + width / 2;
+      thisPoints[i][1] += y + width / 2;
+      otherPoints[i][0] += x + width / 2;
+      otherPoints[i][1] += y + width / 2;
+    }
+
+    thisPoints = pointsToString(thisPoints);
+    otherPoints = pointsToString(otherPoints);
+    currentTriangle.attr('points', thisPoints);
+    otherTriangle.attr('points', otherPoints);
+  }
+
+  function pointsToString(points) {
+    var pointsStr = '';
+    for (var i = 0; i < points.length; i++) {
+      pointsStr += points[i].join(',') + ' ';
+    }
+    return pointsStr.trim();
+  }
+
+  function stringToPoints(str) {
+    var points = str.split(' ');
+    for (var i = 0; i < points.length; i++) {
+      points[i] = points[i].split(',').map(Number);
+    }
+    return points;
   }
 
   function randomColor() {
@@ -238,7 +279,7 @@ $(function () {
   }
 
   function addSVGHeader(polys) {
-    var svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg" x="0" y="0" >\n';
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg" x="0" y="0" shape-rendering="crispEdges" >\n';
     svg += polys.join('\n');
     svg += '\n</svg>';
     return svg;
