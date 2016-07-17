@@ -171,7 +171,7 @@ $(function () {
     var points;
     // Add 1 pixel overlap to first of 2 triangles to fix aliasing issue
     if (!flipped) {
-      points = [[x, y], [x + width + 1, y], [x, y + width + 1]];
+      points = [[x, y], [x + width, y], [x, y + width]];
     } else {
       points = [[x, y], [x + width, y], [x, y + width]];
     }
@@ -226,14 +226,49 @@ $(function () {
   }
 
   function rotateTriangle(target) {
-    var currentTrianglePoints = d3.select(target).attr('points'),
-      pointsArray = stringToPoints(currentTrianglePoints);
+    var currentTriangle = d3.select(target),
+      thisPoints = stringToPoints(currentTriangle.attr('points')),
+      firstElement = false;
 
-    var width = Math.max(Math.abs(pointsArray[0][0] - pointsArray[1][0]), Math.abs(pointsArray[0][0] - pointsArray[2][0]));
-    console.log(width);
-    //var x =
+    var otherTriangle = d3.select(target.previousElementSibling);
+    if (otherTriangle.empty()) {
+      otherTriangle = d3.select(target.nextElementSibling);
+      firstElement = true;
+    }
+    var otherPoints = stringToPoints(otherTriangle.attr('points'));
 
-    console.log(pointsArray);
+    var width = Math.max(Math.abs(thisPoints[0][0] - thisPoints[1][0]), Math.abs(thisPoints[0][0] - thisPoints[2][0])),
+      x, y;
+
+    if (firstElement) {
+      x = Math.min(thisPoints[0][0], thisPoints[1][0], thisPoints[2][0]);
+      y = Math.min(thisPoints[0][1], thisPoints[1][1], thisPoints[2][1]);
+    } else {
+      x = Math.min(otherPoints[0][0], otherPoints[1][0], otherPoints[2][0]);
+      y = Math.min(otherPoints[0][1], otherPoints[1][1], otherPoints[2][1]);
+    }
+
+    console.log(x, y);
+
+    for (var i = 0; i < thisPoints.length; i++) {
+      thisPoints[i][0] -= x + width / 2;
+      thisPoints[i][1] -= y + width / 2;
+      otherPoints[i][0] -= x + width / 2;
+      otherPoints[i][1] -= y + width / 2;
+
+      [thisPoints[i][0], thisPoints[i][1]] = [-thisPoints[i][1], thisPoints[i][0]];
+      [otherPoints[i][0], otherPoints[i][1]] = [-otherPoints[i][1], otherPoints[i][0]];
+
+      thisPoints[i][0] += x + width / 2;
+      thisPoints[i][1] += y + width / 2;
+      otherPoints[i][0] += x + width / 2;
+      otherPoints[i][1] += y + width / 2;
+    }
+
+    thisPoints = pointsToString(thisPoints);
+    otherPoints = pointsToString(otherPoints);
+    currentTriangle.attr('points', thisPoints);
+    otherTriangle.attr('points', otherPoints);
   }
 
   function pointsToString(points) {
@@ -243,10 +278,11 @@ $(function () {
     }
     return pointsStr.trim();
   }
+
   function stringToPoints(str) {
     var points = str.split(' ');
     for (var i = 0; i < points.length; i++) {
-      points[i] = points[i].split(',');
+      points[i] = points[i].split(',').map(Number);
     }
     return points;
   }
