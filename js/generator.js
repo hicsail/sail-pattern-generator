@@ -40,7 +40,7 @@ $(function () {
       .attr('shape-rendering', 'crispEdges');
 
     svg.on('click', function () {
-      if (d3.event.ctrlKey) {
+      if (d3.event.altKey) {
         rotateTriangle(d3.event.target);
       } else {
         changeColor(d3.event.target);
