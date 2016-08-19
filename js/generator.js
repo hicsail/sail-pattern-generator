@@ -57,6 +57,8 @@ $(function () {
     svg.on('click', function () {
       if (d3.event.altKey) {
         rotateTriangle(d3.event.target);
+      } else if (d3.event.shiftKey) {
+        clearColor(d3.event.target);
       } else {
         changeColor(d3.event.target);
       }
@@ -165,6 +167,14 @@ $(function () {
     otherPoints = coordsToString(otherPoints);
     currentTriangle.attr('points', thisPoints);
     otherTriangle.attr('points', otherPoints);
+  }
+
+  /**
+   * Change color of D3 target to default (cleared) color.
+   */
+  function clearColor(target) {
+    d3.select(target)
+      .attr('fill', colors[4]);
   }
 
   /**
